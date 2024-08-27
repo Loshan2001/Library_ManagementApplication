@@ -1,14 +1,13 @@
- 
+ import React from 'react'
 import './App.css'
-
-function App() {
-   
+import Home from './components/Home/Home'
+const App: React.FC = ()=>{
 
   return (
     <>
-     hi
+     <Home/>
     </>
-  )
+  )  
 }
 
 export default App

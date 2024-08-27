@@ -1,0 +1,29 @@
+.wrapper{
+    min-width: 100vh;
+    min-height: 100vh;
+    display: grid;
+    grid-template-areas: 'header header'
+                         'aside main'
+                         'footer footer';
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 9fr 2fr;
+    gap:20px;
+}
+
+.header{
+    grid-area: header;
+   
+}
+
+.aside{
+    grid-area: aside;
+    
+}
+.main{
+    grid-area: main;
+     
+}
+.footer{
+    grid-area: footer;
+    
+}

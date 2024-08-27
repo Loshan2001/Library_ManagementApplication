@@ -5,7 +5,15 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}', // Add TypeScript files here
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        primary: '#e3e8eb',
+        secondary : '#c8d1d9'
+
+      }
+    },
+    
   },
+  
   plugins: [],
 }
