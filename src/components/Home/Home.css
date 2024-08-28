@@ -27,3 +27,17 @@
     grid-area: footer;
     
 }
+ 
+.bookContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  
+   
+  @media (max-width: 600px) {
+    .bookContainer {
+      grid-template-columns: 1fr 1fr; /* Stack items in a single column on small screens */
+    }
+  }
+  

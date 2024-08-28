@@ -19,9 +19,9 @@ const Header: React.FC = () => {
           <h1 className="text-left text-xl md:text-2xl lg:text-3xl uppercase font-extrabold">Library Management</h1>
         </div>
         <div className="hidden md:flex mb-4 md:mb-0">
-          <ul className="flex items-center gap-4 md:gap-8">
+          <ul className="flex items-center gap-4 md:gap-8 uppercase">
             <li className="p-2 hover:bg-secondary active:bg-primary cursor-pointer">Home</li>
-            <li className="p-2 hover:bg-secondary active:bg-primary cursor-pointer">About Us</li>
+            <li className="p-2 hover:bg-secondary active:bg-primary cursor-pointer">Add Book</li>
           </ul>
         </div>
         <div className="flex md:hidden mb-4 md:mb-0">
