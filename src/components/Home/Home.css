@@ -28,16 +28,80 @@
     
 }
  
-.bookContainer {
+/* .bookContainer {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
   }
   
-   
+/*    
   @media (max-width: 600px) {
     .bookContainer {
       grid-template-columns: 1fr 1fr; /* Stack items in a single column on small screens */
-    }
-  }
-  
+    /* } */
+  /* } */
+   
+.bookContainer {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bookList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;  
+  justify-content: center; 
+}
+
+.bookItem {
+  display: flex;
+  flex-direction: column;
+  width: 200px;  
+  background-color: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 0.5rem;
+  overflow: hidden;  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bookItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.bookTitle {
+  padding: 0.5rem;
+  background-color: #f3f3f3;
+  text-align: center;
+}
+
+.bookImage img {
+  width: 100%;
+  height: auto;
+}
+
+.bookDetails {
+  padding: 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bookDetails button {
+  margin: 0.25rem;
+}
+
+.bookDetails .buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;  
+}
+
+.bookDetails .buttonContainer button {
+  flex: 1;  
+  padding: 0.5rem;
+}
