@@ -4,6 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        builder => builder
+            .WithOrigins("http://localhost:5173") // Add your React app's URL
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 // Add services to the container.
 builder.Services.AddDbContext<BookContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -32,12 +42,35 @@ app.MapGet("/books/{id}", async (int id, BookContext db) =>
             ? Results.Ok(book)
             : Results.NotFound());
 
+// app.MapPost("/books", async (Book book, BookContext db) =>
+// {
+//     db.Books.Add(book);
+//     await db.SaveChangesAsync();
+//     return Results.Created($"/books/{book.Id}", book);
+// });
+
 app.MapPost("/books", async (Book book, BookContext db) =>
 {
-    db.Books.Add(book);
-    await db.SaveChangesAsync();
-    return Results.Created($"/books/{book.Id}", book);
-});
+    try
+    {
+        if (string.IsNullOrEmpty(book.Title) || string.IsNullOrEmpty(book.Author))
+        {
+            return Results.BadRequest("Title and Author are required fields.");
+        }
+
+        db.Books.Add(book);
+        await db.SaveChangesAsync();
+        return Results.Created($"/books/{book.Id}", book);
+    }
+    catch (Exception ex)
+    {
+        // Log the exception
+        Console.WriteLine($"Error creating book: {ex}");
+        return Results.StatusCode(500);
+    }
+})
+.WithName("CreateBook")
+.WithOpenApi();
 
 app.MapPut("/books/{id}", async (int id, Book inputBook, BookContext db) =>
 {
