@@ -16,12 +16,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema; // Add this namespace for DatabaseGeneratedOption
 
 namespace BackEnd.models
 {
     public class Book
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Auto-generate Id
         public int Id { get; set; }
 
         [Required]

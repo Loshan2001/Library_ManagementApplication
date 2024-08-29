@@ -42,41 +42,66 @@ app.MapGet("/books/{id}", async (int id, BookContext db) =>
             ? Results.Ok(book)
             : Results.NotFound());
 
-// app.MapPost("/books", async (Book book, BookContext db) =>
-// {
-//     db.Books.Add(book);
-//     await db.SaveChangesAsync();
-//     return Results.Created($"/books/{book.Id}", book);
-// });
-
 app.MapPost("/books", async (Book book, BookContext db) =>
 {
-    try
-    {
-        if (string.IsNullOrEmpty(book.Title) || string.IsNullOrEmpty(book.Author))
-        {
-            return Results.BadRequest("Title and Author are required fields.");
-        }
+    db.Books.Add(book);
+    await db.SaveChangesAsync();
+    return Results.Created($"/books/{book.Id}", book);
+});
 
-        db.Books.Add(book);
-        await db.SaveChangesAsync();
-        return Results.Created($"/books/{book.Id}", book);
-    }
-    catch (Exception ex)
-    {
-        // Log the exception
-        Console.WriteLine($"Error creating book: {ex}");
-        return Results.StatusCode(500);
-    }
-})
-.WithName("CreateBook")
-.WithOpenApi();
+// app.MapPost("/books", async (Book book, BookContext db) =>
+// {
+//     try
+//     {
+//         if (string.IsNullOrEmpty(book.Title) || string.IsNullOrEmpty(book.Author))
+//         {
+//             return Results.BadRequest("Title and Author are required fields.");
+//         }
+
+//         db.Books.Add(book);
+//         await db.SaveChangesAsync();
+//         return Results.Created($"/books/{book.Id}", book);
+//     }
+//     catch (Exception ex)
+//     {
+//         // Log the exception
+//         Console.WriteLine($"Error creating book: {ex}");
+//         return Results.StatusCode(500);
+//     }
+// })
+// .WithName("CreateBook")
+// .WithOpenApi();
+// app.MapPost("/books", async (Book book, BookContext db, ILogger<Book> logger) =>
+// {
+//     try
+//     {
+//         if (string.IsNullOrEmpty(book.Title) || string.IsNullOrEmpty(book.Author))
+//         {
+//             return Results.BadRequest("Title and Author are required fields.");
+//         }
+
+//         db.Books.Add(book);
+//         await db.SaveChangesAsync();
+//         return Results.Created($"/books/{book.Id}", book);
+//     }
+//     catch (Exception ex)
+//     {
+//         // Log the exception using ILogger
+//         logger.LogError(ex, "Error occurred while creating a book");
+
+//         // Use Results.Problem to return a 500 Internal Server Error with a message
+//         return Results.Problem("An error occurred while processing your request.", statusCode: 500);
+//     }
+// })
+// .WithName("CreateBook")
+// .WithOpenApi();
+
 
 app.MapPut("/books/{id}", async (int id, Book inputBook, BookContext db) =>
 {
     var book = await db.Books.FindAsync(id);
     if (book is null) return Results.NotFound();
-    
+    book.Type=inputBook.Type;
     book.Title = inputBook.Title;
     book.Author = inputBook.Author;
     await db.SaveChangesAsync();
