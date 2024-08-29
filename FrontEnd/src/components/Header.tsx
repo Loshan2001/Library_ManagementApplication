@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import CreatePopup from './create/CreatePopup';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal state
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -10,6 +12,14 @@ const Header: React.FC = () => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -21,7 +31,7 @@ const Header: React.FC = () => {
         <div className="hidden md:flex mb-4 md:mb-0">
           <ul className="flex items-center gap-4 md:gap-8 uppercase">
             <li className="p-2 hover:bg-secondary active:bg-primary cursor-pointer">Home</li>
-            <li className="p-2 hover:bg-secondary active:bg-primary cursor-pointer">Add Book</li>
+            <li className="p-2 hover:bg-secondary active:bg-primary cursor-pointer" onClick={openModal}>Add Book</li>
           </ul>
         </div>
         <div className="flex md:hidden mb-4 md:mb-0">
@@ -47,6 +57,7 @@ const Header: React.FC = () => {
             <ul className="flex flex-col items-center gap-4">
               <li className="p-2 hover:bg-secondary active:bg-primary cursor-pointer">Home</li>
               <li className="p-2 hover:bg-secondary active:bg-primary cursor-pointer">About Us</li>
+              <li className="p-2 hover:bg-secondary active:bg-primary cursor-pointer" onClick={openModal}>Add Book</li>
             </ul>
           </div>
         )}
@@ -79,6 +90,7 @@ const Header: React.FC = () => {
           </div>
         </div>
       </div>
+      {isModalOpen && <CreatePopup onClose={closeModal} />} {/* Render modal */}
     </>
   );
 };
