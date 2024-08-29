@@ -8,6 +8,16 @@ namespace BackEnd.models
          
           // Tables
         public DbSet<Book> Books{ get; set;}
+        /// <summary>
+        /// //
+        /// </summary>
+       
+         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>()
+                .HasIndex(b => b.Title)
+                .IsUnique();
+        }
         
     }
 }

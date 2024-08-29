@@ -4,11 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Add services to the container.
 builder.Services.AddDbContext<BookContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -23,30 +22,43 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// var summaries = new[]
-// {
-//     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-// };
+// Define API endpoints
+app.MapGet("/books", async (BookContext db) =>
+    await db.Books.ToListAsync());
 
-// app.MapGet("/weatherforecast", () =>
-// {
-//     var forecast =  Enumerable.Range(1, 5).Select(index =>
-//         new WeatherForecast
-//         (
-//             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-//             Random.Shared.Next(-20, 55),
-//             summaries[Random.Shared.Next(summaries.Length)]
-//         ))
-//         .ToArray();
-//     return forecast;
-// })
-// .WithName("GetWeatherForecast")
-// .WithOpenApi();
+app.MapGet("/books/{id}", async (int id, BookContext db) =>
+    await db.Books.FindAsync(id)
+        is Book book
+            ? Results.Ok(book)
+            : Results.NotFound());
 
+app.MapPost("/books", async (Book book, BookContext db) =>
+{
+    db.Books.Add(book);
+    await db.SaveChangesAsync();
+    return Results.Created($"/books/{book.Id}", book);
+});
+
+app.MapPut("/books/{id}", async (int id, Book inputBook, BookContext db) =>
+{
+    var book = await db.Books.FindAsync(id);
+    if (book is null) return Results.NotFound();
+    
+    book.Title = inputBook.Title;
+    book.Author = inputBook.Author;
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
+app.MapDelete("/books/{id}", async (int id, BookContext db) =>
+{
+    if (await db.Books.FindAsync(id) is Book book)
+    {
+        db.Books.Remove(book);
+        await db.SaveChangesAsync();
+        return Results.Ok(book);
+    }
+    return Results.NotFound();
+});
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
