@@ -21,7 +21,7 @@ const BookList: React.FC = () => {
               />
             </div>
             <div className='bookDetails'>
-              <p>{book.description}</p>
+              <p className='text-justify'>{book.description}</p>
               <h3 className='text-slate-500'>- {book.author}</h3>
               <button className='bg-secondary text-black hover:bg-black hover:text-white uppercase'>
                 Update
