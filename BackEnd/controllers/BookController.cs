@@ -5,7 +5,7 @@ namespace BackEnd.Controllers
 
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("[controller]")]
+   [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
     {
