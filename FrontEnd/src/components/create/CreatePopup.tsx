@@ -1,4 +1,10 @@
 import React from "react";
+
+import {BookSchema} from '../validation/BookValidation'
+//react hook form give as display error and handling form
+import {useForm} from 'react-hook-form'
+//to integrate the yup and react hook form 
+import {yupResolver} from '@hookform/resolvers/yup'
 import {
   Dialog,
   DialogBackdrop,
@@ -12,9 +18,20 @@ interface CreatePopupProps {
 
 const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
 
-
-  
-
+  //get two function
+  //register function get the input validation
+  const {register, handleSubmit , formState : {errors}} = useForm(
+    {
+      // we specify how our schema look like
+      //give a schma to resolver using yupResolver
+      resolver: yupResolver(BookSchema)
+    }
+  )
+  //execute the datas 
+  const  createBook =(data)=>{
+    console.log(data)
+    onClose();
+  }
   return (
     <Dialog open={true} onClose={onClose} className="relative z-10">
       <DialogBackdrop
@@ -32,7 +49,7 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
               Add New Book
             </DialogTitle>
             <div className="mt-4">
-              <form className="space-y-4">
+              <form  onSubmit={handleSubmit(createBook)} className="space-y-4">
                 <div className="flex flex-col space-y-2">
                   <label
                     htmlFor="title"
@@ -44,8 +61,10 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
                     type="text"
                     id="title"
                     required
+                    {...register("Title")}
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   />
+                  <span  className="text-red">{errors.Title?.message}</span>
                 </div>
                 <div className="flex flex-col space-y-2">
                   <label
@@ -56,10 +75,11 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
                   </label>
                   <textarea
                     id="description"
-                     
+                    {...register("Description")}
                     required
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   />
+                   <span  className="text-red">{errors.Description?.message}</span>
                 </div>
                 <div className="flex flex-col space-y-2">
                   <label
@@ -71,10 +91,11 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
                   <input
                     type="text"
                     id="author"
-                     
+                    {...register("Author")}
                     required
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   />
+                   <span  className="text-red">{errors.Author?.message}</span>
                 </div>
                 <div className="flex flex-col space-y-2">
                   <label
@@ -86,10 +107,11 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
                   <input
                     type="text"
                     id="author"
-                     
+                    {...register("Image")}
                     required
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   />
+                   <span  className="text-red">{errors.Image?.message}</span>
                 </div>
                 <div className="flex flex-col space-y-2">
                   <label
@@ -100,7 +122,7 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
                   </label>
                   <select
                     id="type"
-                     
+                    {...register("Type")}
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-white"
                   >
                     <option value="Fairy Tale">Fairy Tale</option>
@@ -109,6 +131,7 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
                     <option value="Comics">Comics</option>
                     <option value="Mystery">Mystery</option>
                   </select>
+                  <span className="text-red">{errors.Type?.message}</span>
                 </div>
                 <div className="flex justify-end gap-2 mt-4">
                   <button

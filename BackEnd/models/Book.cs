@@ -33,7 +33,7 @@ namespace BackEnd.models
         [MaxLength(1000)]
         public string Description { get; set; }
         [Required]
-        [MaxLength(500)]
+        // [MaxLength(500)]
         public string Image { get; set; }
        
         [Required]
