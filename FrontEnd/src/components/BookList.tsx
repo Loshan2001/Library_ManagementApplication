@@ -14,14 +14,17 @@ interface Book {
 
 const BookList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBookId, setSelectedBookId] = useState<number | null>(null); // Added state for selected book ID
   const [books, setBooks] = useState<Book[]>([]);
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (id: number) => {
+    setSelectedBookId(id); // Set the selected book ID
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedBookId(null); // Clear the selected book ID when closing the modal
   };
 
   const handleDelete = (id: number) => {
@@ -66,7 +69,7 @@ const BookList: React.FC = () => {
               <p className='text-justify'>{book.description}</p>
               <h3 className='text-slate-500'>- {book.author}</h3>
               <button
-                onClick={handleOpenModal}
+                onClick={() => handleOpenModal(book.id)} // Pass the book ID
                 className='bg-secondary text-black hover:bg-black hover:text-white uppercase'
               >
                 Update
@@ -81,7 +84,12 @@ const BookList: React.FC = () => {
           </div>
         ))}
       </div>
-      {isModalOpen && <UpdatePopup onClose={handleCloseModal} />}
+      {isModalOpen && selectedBookId !== null && (
+        <UpdatePopup 
+          onClose={handleCloseModal} 
+          bookId={selectedBookId} // Pass the book ID to UpdatePopup
+        />
+      )}
     </div>
   );
 };

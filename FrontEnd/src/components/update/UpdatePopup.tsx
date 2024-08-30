@@ -12,12 +12,16 @@ import {
 } from "@headlessui/react";
 import axios from "axios";
 
+
 interface UpdatePopupProps {
   onClose: () => void;
+  bookId: number; // Add the bookId prop
 }
 
 
-const UpdatePopup: React.FC<UpdatePopupProps> = ({ onClose }) => {
+const UpdatePopup: React.FC<UpdatePopupProps> = ({ onClose, bookId }) => {
+    
+  
   //get two function
   //register function get the input validation
   const {register, handleSubmit , formState : {errors}} = useForm(
@@ -32,6 +36,12 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({ onClose }) => {
    
     console.log(data)
     onClose();
+  }
+
+  const handleUpdate =()=>{
+    axios.get(`http://localhost:5271/Onebook/${bookId}`).then((res)=>{
+      console.log('bookID-<',res.data.id)
+    })
   }
   return (
     <Dialog open={true} onClose={onClose} className="relative z-10">
@@ -145,6 +155,7 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({ onClose }) => {
                 <button
                   type="submit"
                   className="inline-flex justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+                  onClick={handleUpdate}
                 >
                   Update
                 </button>

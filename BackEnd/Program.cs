@@ -38,7 +38,7 @@ app.UseHttpsRedirection();
 app.MapGet("/books", async (BookContext db) =>
     await db.Books.ToListAsync());
 
-app.MapGet("/books/{id}", async (int id, BookContext db) =>
+app.MapGet("/Onebook/{id}", async (int id, BookContext db) =>
     await db.Books.FindAsync(id)
         is Book book
             ? Results.Ok(book)
