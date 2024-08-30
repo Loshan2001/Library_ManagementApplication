@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Home/Home.css';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import UpdatePopup from './update/UpdatePopup';
 
 // Define the Book type or interface
@@ -28,15 +29,38 @@ const BookList: React.FC = () => {
   };
 
   const handleDelete = (id: number) => {
-    axios.delete(`http://localhost:5271/books/${id}`)
-      .then(() => {
-        setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:5271/books/${id}`)
+          .then(() => {
+            setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
+            Swal.fire(
+              'Deleted!',
+              'Your book has been deleted.',
+              'success'
+            );
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log(err);
+            Swal.fire(
+              'Error!',
+              'Something went wrong.',
+              'error'
+            );
+          });
+      }
+    });
   };
-
   useEffect(() => {
     axios.get<Book[]>('http://localhost:5271/books')
       .then((res) => {
@@ -48,7 +72,7 @@ const BookList: React.FC = () => {
   }, []);
 
   // Debugging: Check for unique keys
-  console.log('Books:', books);
+  // console.log('Books:', books);
 
   return (
     <div className='bookContainer'>

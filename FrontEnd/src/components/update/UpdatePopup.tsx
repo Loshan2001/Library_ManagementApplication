@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BookSchema } from '../validation/BookValidation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Swal from 'sweetalert2';
 import {
   Dialog,
   DialogBackdrop,
@@ -39,6 +40,7 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({ onClose, bookId }) => {
 
   useEffect(() => {
     axios.get(`http://localhost:5271/Onebook/${bookId}`).then((res) => {
+      // set the value of a specific form field.
       setValue('Title', res.data.title);
       setValue('Author', res.data.author);
       setValue('Description', res.data.description);
@@ -49,11 +51,34 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({ onClose, bookId }) => {
   }, [bookId, setValue]);
 
   const onSubmit: SubmitHandler<BookFormValues> = (data) => {
-    console.log(data);
-    // Implement your update logic here
+    // console.log('Form Data:', data);
+    axios.put(`http://localhost:5271/books/${bookId}`, data)
+      .then((res) => {
+        console.log('Update Response:', res.data);
+        // Show success alert and reload the page after confirmation
+        Swal.fire({
+          title: 'Success!',
+          text: 'The book has been updated.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+      })
+      .catch((err) => {
+        console.log('Update Error:', err);
+        Swal.fire({
+          title: 'Error!',
+          text: 'Something went wrong.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      });
     onClose();
   };
-
+//Ensure Data is Loaded Before Rendering the Form
   if (loading) return <div>Loading...</div>;
 
   return (

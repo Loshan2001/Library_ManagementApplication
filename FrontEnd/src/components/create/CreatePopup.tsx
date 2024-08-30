@@ -43,6 +43,7 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
     });
     // Close the form dialog
     onClose();
+    window.location.reload();
 
    }).catch((err)=>{
     console.error("Error adding book:", err);
