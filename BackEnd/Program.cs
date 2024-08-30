@@ -9,10 +9,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         builder => builder
-            .WithOrigins("http://localhost:5173") // Add your React app's URL
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+            .WithOrigins("http://localhost:5173") // Your React app's URL
+            .WithMethods("GET", "POST", "PUT", "DELETE")  // Allow all methods
+            .AllowAnyHeader() // Allow all headers
+            .AllowCredentials()); // If you need to allow credentials
 });
+
 
 // Add services to the container.
 builder.Services.AddDbContext<BookContext>(options =>
@@ -30,8 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowReactApp"); 
 app.UseHttpsRedirection();
-
 // Define API endpoints
 app.MapGet("/books", async (BookContext db) =>
     await db.Books.ToListAsync());
@@ -42,7 +44,7 @@ app.MapGet("/books/{id}", async (int id, BookContext db) =>
             ? Results.Ok(book)
             : Results.NotFound());
 
-app.MapPost("/books", async (Book book, BookContext db) =>
+app.MapPost("/book", async (Book book, BookContext db) =>
 {
     db.Books.Add(book);
     await db.SaveChangesAsync();

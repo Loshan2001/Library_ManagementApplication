@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Home/Home.css';
-import Dummy from './helper/Dummydata';
+import axios from 'axios';
 import UpdatePopup from './update/UpdatePopup';
+
+// Define the Book type or interface
+interface Book {
+  id: number;
+  title: string;
+  description: string;
+  author: string;
+  image: string;
+}
 
 const BookList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [books, setBooks] = useState<Book[]>([]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -14,11 +24,34 @@ const BookList: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  const handleDelete = (id: number) => {
+    axios.delete(`http://localhost:5271/books/${id}`)
+      .then(() => {
+        setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    axios.get<Book[]>('http://localhost:5271/books')
+      .then((res) => {
+        setBooks(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // Debugging: Check for unique keys
+  console.log('Books:', books);
+
   return (
     <div className='bookContainer'>
       <div className='bookList'>
-        {Dummy.map((book, index) => (
-          <div key={index} className='bookItem'>
+        {books.map((book) => (
+          <div key={book.id} className='bookItem'>
             <div className='bookTitle'>
               <h1 className='font-semibold capitalize'>{book.title}</h1>
             </div>
@@ -38,7 +71,10 @@ const BookList: React.FC = () => {
               >
                 Update
               </button>
-              <button className='hover:bg-black hover:text-white bg-primary uppercase'>
+              <button
+                className='hover:bg-black hover:text-white bg-primary uppercase'
+                onClick={() => handleDelete(book.id)}
+              >
                 Delete
               </button>
             </div>

@@ -1,6 +1,7 @@
 import React from "react";
-
+import axios from "axios";
 import {BookSchema} from '../validation/BookValidation'
+import Swal from 'sweetalert2';
 //react hook form give as display error and handling form
 import {useForm} from 'react-hook-form'
 //to integrate the yup and react hook form 
@@ -18,7 +19,7 @@ interface CreatePopupProps {
 
 const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
 
-  //get two function
+  
   //register function get the input validation
   const {register, handleSubmit , formState : {errors}} = useForm(
     {
@@ -27,11 +28,39 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ onClose }) => {
       resolver: yupResolver(BookSchema)
     }
   )
-  //execute the datas 
-  const  createBook =(data)=>{
-    console.log(data)
+ // Function to handle form submission
+ const createBook =  (data: unknown) => {
+ 
+    // Sending a POST request to the backend
+   axios.post('http://localhost:5271/book', data).then((res)=>{
+    console.log(res.data)
+// Show success message
+    Swal.fire({
+      icon: 'success',
+      title: 'Book Added',
+      text: 'The book was added successfully!',
+      
+    });
+    // Close the form dialog
     onClose();
-  }
+
+   }).catch((err)=>{
+    console.error("Error adding book:", err);
+    // Optionally, show an error message if the API request fails
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'There was a problem adding the book. Please try again.',
+    });
+   })
+    
+    
+    
+  } 
+   
+ 
+
+ 
   return (
     <Dialog open={true} onClose={onClose} className="relative z-10">
       <DialogBackdrop

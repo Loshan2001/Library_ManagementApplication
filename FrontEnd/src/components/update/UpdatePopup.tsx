@@ -10,6 +10,7 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
+import axios from "axios";
 
 interface UpdatePopupProps {
   onClose: () => void;
@@ -27,7 +28,8 @@ const UpdatePopup: React.FC<UpdatePopupProps> = ({ onClose }) => {
     }
   )
   //execute the datas 
-  const  updateBook =(data)=>{
+  const  updateBook =(data: unknown)=>{
+   
     console.log(data)
     onClose();
   }
