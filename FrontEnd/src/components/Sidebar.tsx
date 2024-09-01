@@ -38,7 +38,7 @@ const Sidebar: React.FC = () => {
             isMenuOpen ? 'block' : 'hidden'
           }`}
         >
-          <ul className="flex flex-row gap-2 md:gap-4 p-2 md:p-0">
+          <ul className="md:flex flex-row gap-2 md:gap-4 p-2 md:p-0">
             <li className="p-2 bg-primary hover:bg-secondary uppercase w-full">Fairy Tale</li>
             <li className="p-2 bg-primary hover:bg-secondary uppercase w-full">Fiction</li>
             <li className="p-2 bg-primary hover:bg-secondary uppercase w-full">Fantasy</li>
