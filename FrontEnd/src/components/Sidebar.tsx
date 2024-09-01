@@ -10,6 +10,7 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <div className="relative">
+        <hr />
         {/* Menu icon */}
         <button
           className="block md:hidden p-2 bg-black text-white hover:bg-secondary focus:outline-none"
@@ -33,11 +34,11 @@ const Sidebar: React.FC = () => {
 
         {/* Sidebar list */}
         <div
-          className={`md:flex md:flex-col md:w-auto md:h-auto md:p-2 md:bg-white md:relative md:gap-9 transition-all duration-300 ${
+          className={`md:flex flex-col md:w-auto md:h-auto md:p-2 md:bg-white md:relative md:gap-9 transition-all duration-300 ${
             isMenuOpen ? 'block' : 'hidden'
           }`}
         >
-          <ul className="flex flex-col gap-2 md:gap-4 p-2 md:p-0">
+          <ul className="flex flex-row gap-2 md:gap-4 p-2 md:p-0">
             <li className="p-2 bg-primary hover:bg-secondary uppercase w-full">Fairy Tale</li>
             <li className="p-2 bg-primary hover:bg-secondary uppercase w-full">Fiction</li>
             <li className="p-2 bg-primary hover:bg-secondary uppercase w-full">Fantasy</li>
