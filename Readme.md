@@ -87,8 +87,7 @@ dotnet run
     <ol>
         <li>Navigate to the <code>Backend</code> directory.</li>
         
-        <li>Run the backend server:
-            <pre>
+        
 <code>dotnet run</code>
             </pre>
         </li>
