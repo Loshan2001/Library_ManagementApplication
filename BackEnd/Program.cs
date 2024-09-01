@@ -106,6 +106,8 @@ app.MapPut("/books/{id}", async (int id, Book inputBook, BookContext db) =>
     book.Type=inputBook.Type;
     book.Title = inputBook.Title;
     book.Author = inputBook.Author;
+    book.Description = inputBook.Description;
+    book.Image = inputBook.Image;
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
