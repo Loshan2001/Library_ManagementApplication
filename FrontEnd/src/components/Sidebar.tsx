@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
 
         {/* Sidebar list */}
         <div
-          className={`md:flex md:flex-col md:w-auto md:h-auto md:p-2 md:bg-white md:relative md:gap-9 ${
+          className={`md:flex md:flex-col md:w-auto md:h-auto md:p-2 md:bg-white md:relative md:gap-9 transition-all duration-300 ${
             isMenuOpen ? 'block' : 'hidden'
           }`}
         >
