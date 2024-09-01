@@ -82,6 +82,17 @@ dotnet run
         </li>
     </ol>
 
+
+<h3>Backend Setup</h3>
+    <ol>
+        <li>Navigate to the <code>Backend</code> directory.</li>
+        
+        <li>Run the backend server:
+            <pre>
+<code>dotnet run</code>
+            </pre>
+        </li>
+    </ol>
 <h3>Running the Application</h3>
     <p> <code>http://localhost:5173</code> </p>
 
