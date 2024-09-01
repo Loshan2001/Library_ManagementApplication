@@ -10,9 +10,9 @@ A streamlined and effective Library Management System that enables users to hand
 </h4>
 <h2>Technologies</h2>
     <ul>
+        <li><strong>Version Control:</strong> Git</li>
         <li><strong>server:</strong> C# .NET Core with Entity Framework, SQLite database.</li>
         <li><strong>client:</strong> React with TypeScript.</li>
-        <li><strong>Version Control:</strong> Git</li>
     </ul>
 
 ## Features
@@ -33,18 +33,20 @@ A streamlined and effective Library Management System that enables users to hand
 
 
     <ul>
-        <li><strong>Backend:</strong>
-            <ul>
-                <li>RESTful API endpoints for book management.</li>
-                <li>Entity Framework for database integration.</li>
-                <li>Error handling and validation for robust API operations.</li>
-            </ul>
-        </li>
+       
         <li><strong>Frontend:</strong>
             <ul>
-                <li>Responsive and user-friendly interface.</li>
                 <li>CRUD operations fully integrated with the backend API.</li>
+                <li>Responsive and user-friendly interface.</li>
                 <li>Input validation and error handling for form submissions.</li>
+            </ul>
+        </li>
+
+         <li><strong>Backend:</strong>
+            <ul>
+                <li>RESTful API endpoints for book service.</li>
+                <li>Entity Framework for database integration.</li>
+                
             </ul>
         </li>
     </ul>
