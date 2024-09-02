@@ -1,7 +1,15 @@
 <h1 align="center">
     LIBRARY MANAGEMENT APPLICATION
 </h1>
-
+<div align="center">
+    <img src="/FrontEnd//assets/home.png" alt="Library Management" width="300" height="200">
+</div>
+<div align="center">
+    <img src="/FrontEnd//assets/AddBook.png" alt="Library Management" width="300" height="200">
+</div>
+<div align="center">
+    <img src="/FrontEnd//assets/update.png" alt="Library Management" width="300" height="200">
+</div>
 <h4>
 
 A streamlined and effective Library Management System that enables users to handle book records in a library. It features functionalities for creating, reading, updating, and deleting (CRUD) book entries. The project includes a backend API developed with C# .NET and an SQLite database, with a frontend built using React and TypeScript.
